@@ -1,0 +1,23 @@
+{
+  "name": "smallcase",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./src/index.js"
+  },
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "express-rate-limit": "^5.1.3",
+    "http-errors": "~1.6.3",
+    "http-status": "^1.4.2",
+    "morgan": "~1.9.1",
+    "node-cache": "^5.1.2",
+    "nodemon": "^2.0.4",
+    "pg": "^8.3.3",
+    "sequelize": "^5.22.3",
+    "sequelize-auto": "^0.6.2"
+  }
+}
