@@ -34,19 +34,24 @@ const _validateAndUpdateSymbol = (id, updateEntry) => {
         else if(tradeRecord.ticker_symbol == updateEntry.ticker_symbol) throw Error("No changes")
         else{
             //Delete the existing transaction
-                await deleteTransaction(id);
+            let deleteResponse = await deleteTransaction(id);
+            if(deleteResponse.err) throw Error("Invalid Transaction")
                 //Create New Transaction
                 if(tradeEntry.trade_type == 'BUY'){
                     let tradeEntry = tradeRecord.get({plain:true})
                     tradeEntry.ticker_symbol = updateEntry.ticker_symbol;
                     delete tradeEntry['id'];
-                    return buyTransaction(tradeEntry)
+                    let buyResponse = await buyTransaction(tradeEntry)
+                    if(buyResponse.err) throw Error("Invalid transaction")
+                    return buyResponse;
 
                 }else if(tradeEntry.trade_type == 'SELL'){
                     let tradeEntry = tradeRecord.get({plain:true})
                     tradeEntry.ticker_symbol = updateEntry.ticker_symbol;
                     delete tradeEntry['id'];
-                    return sellTransaction(tradeEntry)
+                    let sellResponse = await sellTransaction(tradeEntry)
+                    if(sellResponse.err) throw Error("Invalid Transaction")
+                    return sellResponse;
                 }
                 else{
                     throw Error("Invalid Transaction Type");
@@ -67,19 +72,24 @@ const _validateAndUpdateType = (id, updateEntry) => {
         else if(tradeRecord.trade_type == updateEntry.trade_type) throw Error("No changes")
         else{
             //Delete the existing transaction
-                await deleteTransaction(id);
+                let deleteResponse = await deleteTransaction(id);
+                if(deleteResponse.err) throw Error("Invalid Transaction")
                 //Create New Transaction
                 if(tradeEntry.trade_type == 'BUY'){
                     let tradeEntry = tradeRecord.get({plain:true})
                     tradeEntry.trade_type = updateEntry.trade_type;
                     delete tradeEntry['id'];
-                    return buyTransaction(tradeEntry)
+                    let buyResponse = await buyTransaction(tradeEntry)
+                    if(buyResponse.err) throw Error("Invalid transaction")
+                    return buyResponse;
 
                 }else if(tradeEntry.trade_type == 'SELL'){
                     let tradeEntry = tradeRecord.get({plain:true})
                     tradeEntry.trade_type = updateEntry.trade_type;
                     delete tradeEntry['id'];
-                    return sellTransaction(tradeEntry)
+                    let sellResponse = await sellTransaction(tradeEntry)
+                    if(sellResponse.err) throw Error("Invalid Transaction")
+                    return sellResponse;
                 }
                 else{
                     throw Error("Invalid Transaction Type");
