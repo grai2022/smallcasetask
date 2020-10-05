@@ -19,7 +19,7 @@ const sellTrades = {
 const updateTrades = {
   body: Joi.object().keys({
     id: Joi.number().required(),
-    price: Joi.number().positive(),
+    // price: Joi.number().positive(),
     quantity : Joi.number().integer().min(1),
     type: Joi.string().valid('BUY','SELL'),
     symbol: Joi.string().valid('TCS','WIPRO','GODREJIND')

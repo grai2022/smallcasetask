@@ -18,11 +18,12 @@ module.exports = async function (id) {
                 let tradeEntry = tradeRecord.get({plain:true});
                 let record = await M.portfolio.findOne({where : {ticker_symbol : tradeEntry.ticker_symbol}}, {transaction: t});
                 let prevRecord               = record.get({plain:true});
-                if(prevRecord.quantity - tradeEntry.quantity < 0) throw Error("Invalid Transaction");
+                if(tradeEntry.trade_type == 'BUY' && prevRecord.quantity - tradeEntry.quantity < 0) throw Error("Invalid Transaction");
                 else{
-                    portfolioEntry.quantity      = await utils._getUpdateQuantity(tradeEntry.quantity,prevRecord.quantity, 'SELL');
+                    portfolioEntry.quantity      = await utils._getUpdateQuantity(tradeEntry.quantity,prevRecord.quantity, tradeEntry.trade_type, true);
                     /*average price has been considered same as sell case is it required to recalculate this?*/
-                    portfolioEntry.average_price = await utils._getUpdateAvg(tradeEntry.rate,tradeEntry.quantity,prevRecord.average_price, prevRecord.quantity, 'SELL');
+                    portfolioEntry.average_price = await utils._getUpdateAvg(tradeEntry.rate,tradeEntry.quantity,prevRecord.average_price, prevRecord.quantity, tradeEntry.trade_type, true);
+                    if(portfolioEntry.average_price <0) throw Error("Invalid transaction : avg price")
                     await record.update(portfolioEntry, {transaction: t});
                     await tradeRecord.update({status:false},{transaction: t})
                     return {err : false, msg:'Success'};

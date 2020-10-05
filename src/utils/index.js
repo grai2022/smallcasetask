@@ -21,18 +21,21 @@ module.exports.isEmptyObject = function(object) {
     
 }
 
-module.exports._getUpdateQuantity = async(tradedQuantity, prevQuantity, type)=>{
+module.exports._getUpdateQuantity = async(tradedQuantity, prevQuantity, type, deleteOption)=>{
     if(type == 'SELL'){
-        return prevQuantity - tradedQuantity;
+        return !deleteOption ? prevQuantity - tradedQuantity : prevQuantity + tradedQuantity;
     }else{
-        return parseInt(prevQuantity) + parseInt(tradedQuantity);
+        return !deleteOption ? parseInt(prevQuantity) + parseInt(tradedQuantity) : parseInt(prevQuantity)- parseInt(tradedQuantity) ;
     }
 }
 
-module.exports._getUpdateAvg = async(tradedRate, tradedQuantity, prevAvgRate, prevQuantity, type)=>{
+module.exports._getUpdateAvg = async(tradedRate, tradedQuantity, prevAvgRate, prevQuantity, type, deleteOption)=>{
     if(type == 'SELL'){
         return prevQuantity == tradedQuantity ?  0.00 : prevAvgRate ;
     }else{
+        if(deleteOption){
+            return weightedAvg([prevQuantity, (-1)*tradedQuantity],[prevAvgRate, tradedRate])
+        }
         return weightedAvg([prevQuantity,tradedQuantity],[prevAvgRate, tradedRate])
     }
 }
@@ -43,7 +46,7 @@ weightedAvg = function(inputArr, weightAbsolute) {
     let weightedSum = 0;
     for(let i = 0; i<inputArr.length; i++){
         weightedSum += inputArr[i]*weightAbsolute[i];
-        weightSum += weightAbsolute[i];
+        weightSum += inputArr[i];
     }
     return weightSum ? weightedSum/weightSum:0;
 }
