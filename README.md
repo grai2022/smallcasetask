@@ -1,21 +1,69 @@
-# yf_stocks
 
-Node based APP which implements cache based Stock analysis and NEWS APIs
+API Collection Postman-https://www.getpostman.com/collections/3af9e1985f04b9adfc45
+Examples contain the most frequent request and responses.
 
-#install dependencied
-npm i
+For source code please refer the-
+Github link - https://github.com/navtrip/smallcasetask
 
-#run the app
-npm start
+API General Flow :-
+Routes -> Payload Validation -> Controller -> Services
 
-#cache TTL can be set using Config- current values in secs
-NEWSTTL : 120
-ANLYSISTTL : 180
+List of APIs:-
 
-#Stock Analysis
-http://localhost:3000/stock/analysis?symbol=AMRN
 
-#Stock News - Default region is set as US (Valid options can be found in validations)
-http://localhost:3000/stock/news?symbol=NBEV&region=
+All Trades
+/trades/all
+GET
+Get all trades active inactive
 
-PS- first time user will face a real time delay to get the response.
+Portfolio
+/portfolio/
+GET
+Get Portfolio
+
+Returns
+/portfolio/returns
+GET
+Get Portfolio returns based on avg prices
+
+Buy Trade
+/transaction/buy
+POST
+Buy Security
+
+Sell Trade
+/transaction/sell
+POST
+Sell Security
+
+Update Trade
+/transaction/update
+PATCH
+Update a transaction field
+
+Delete Trade
+/transaction/?id={trade_id}
+DELETE
+Delete a transaction by ID
+
+
+DB :-
+Postgres
+ODM/ORM - Sequelize
+
+Hosting:-
+App is hosted on AWS ec2 instance, process manager- pm2.
+DB hosted on RDS instance
+
+Other Info:-
+
+Every transactional API usage managed transactions with commit and rollback.
+
+“Joi” - Used for payload validation.
+
+Limitation -
+
+Update API can update all trades fields, it only accepts one update field at a time.
+
+
+
