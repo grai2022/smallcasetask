@@ -146,7 +146,7 @@ const __quantityUpdateValidationHelper = (updateEntry,tradeRecord, portfolioReco
     let updatedTradeRecord = Object.assign({},tradeRecord)
     updatedPortfolio.quantity = portfolioRecord.quantity;
     if(updateEntry.trade_type == 'BUY' || tradeRecord.trade_type == 'BUY'){
-        if(uparseInt(updatedPortfolio.quantity) + parseInt(updateEntry.quantity) - tradeRecord.quantity < 0){
+        if(parseInt(updatedPortfolio.quantity) + parseInt(updateEntry.quantity) - tradeRecord.quantity < 0){
             return [false , "Invalid Update Quantity"]
         }else{
             updatedPortfolio.quantity = parseInt(updatedPortfolio.quantity) + parseInt(updateEntry.quantity) - tradeRecord.quantity;
